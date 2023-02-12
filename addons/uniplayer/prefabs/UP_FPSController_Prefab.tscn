@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://7uya15kvp665"]
+
+[ext_resource type="Script" path="res://addons/uniplayer/prefabs/UP_FPSController_Prefab.gd" id="1_0mtdh"]
+[ext_resource type="Script" path="res://addons/uniplayer/tools/UP_RotationHelper.gd" id="2_6e447"]
+[ext_resource type="Script" path="res://addons/uniplayer/abilities/UP_HeadRotationAbility.gd" id="2_uk8vs"]
+[ext_resource type="Script" path="res://addons/uniplayer/abilities/UP_WalkAbility.gd" id="3_1i8tv"]
+[ext_resource type="Script" path="res://addons/uniplayer/abilities/UP_ZoomAbility.gd" id="4_v802f"]
+[ext_resource type="Script" path="res://addons/uniplayer/abilities/UP_Bobbing.gd" id="4_w5rjj"]
+[ext_resource type="Script" path="res://addons/uniplayer/behaviours/UP_KillableBehaviour.gd" id="5_xmkxw"]
+[ext_resource type="Script" path="res://addons/uniplayer/behaviours/UP_Kill_Y.gd" id="6_jpewa"]
+[ext_resource type="Script" path="res://addons/uniplayer/behaviours/UP_Health.gd" id="8_acasa"]
+[ext_resource type="Script" path="res://addons/uniplayer/abilities/UP_DetectFloorChange.gd" id="10_e7gir"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1i86l"]
+radius = 0.35
+height = 1.68
+
+[node name="UP_FPSController_Prefab" type="CharacterBody3D"]
+wall_min_slide_angle = 0.0698132
+floor_max_angle = 1.0472
+script = ExtResource("1_0mtdh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.854512, 0)
+shape = SubResource("CapsuleShape3D_1i86l")
+
+[node name="RotationHelper" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40188, 0)
+script = ExtResource("2_6e447")
+
+[node name="Camera" type="Camera3D" parent="RotationHelper"]
+current = true
+far = 1000.0
+
+[node name="HeadRotation" type="Node" parent="."]
+script = ExtResource("2_uk8vs")
+rotation_helper_path = NodePath("../RotationHelper")
+
+[node name="Bobbing" type="Node" parent="."]
+script = ExtResource("4_w5rjj")
+rotation_helper_path = NodePath("../RotationHelper")
+camera_path = NodePath("../RotationHelper/Camera")
+
+[node name="Walking" type="Node" parent="."]
+script = ExtResource("3_1i8tv")
+rotation_helper_path = NodePath("../RotationHelper")
+bobbing_path = NodePath("../Bobbing")
+
+[node name="Zooming" type="Node" parent="."]
+script = ExtResource("4_v802f")
+camera_path = NodePath("../RotationHelper/Camera")
+killable_behaviour_path = NodePath("../Killable")
+
+[node name="Killable" type="Node" parent="."]
+script = ExtResource("5_xmkxw")
+respawn_type = 1
+
+[node name="Kill_Y" type="Node" parent="."]
+script = ExtResource("6_jpewa")
+killable_behaviour_path = NodePath("../Killable")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("8_acasa")
+killable_behaviour_path = NodePath("../Killable")
+
+[node name="DetectFloorChange" type="Node" parent="."]
+script = ExtResource("10_e7gir")

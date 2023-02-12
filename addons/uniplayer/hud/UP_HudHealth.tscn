@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://crbxg88dt0jq5"]
+
+[ext_resource type="Script" path="res://addons/uniplayer/hud/UP_HudHealth.gd" id="1_p8wxd"]
+
+[sub_resource type="SystemFont" id="SystemFont_i6i2x"]
+font_names = PackedStringArray("Roboto", "Droid Sans", "Arial", "Sans-Serif")
+subpixel_positioning = 0
+
+[node name="HudHealth" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_p8wxd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_bottom = 68.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("SystemFont_i6i2x")
+theme_override_font_sizes/font_size = 24
+text = "HEALTH"
+
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
