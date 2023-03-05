@@ -61,7 +61,7 @@ killable_behaviour_path = NodePath("../Killable")
 
 [node name="Health" type="Node" parent="."]
 script = ExtResource("8_acasa")
-killable_behaviour_path = NodePath("../Killable")
+killable_path = NodePath("../Killable")
 
 [node name="DetectFloorChange" type="Node" parent="."]
 script = ExtResource("10_e7gir")

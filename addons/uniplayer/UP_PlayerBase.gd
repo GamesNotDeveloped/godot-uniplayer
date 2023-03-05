@@ -18,17 +18,17 @@ signal reset
 ## loses or gains control over the character.
 signal controllable_changed
 
-## A list of movement abilities, which will be [b]always[/b] called
+## A list of movement abilities, which will be always called
 ## in each step of [method _process_physics].
-## Abilities should implement [method UP_BaseAbility._process_movement].
+## Abilities can override [method UP_BaseAbility._process_movement()].
 var movement_abilities:Array[UP_BaseAbility] = []
 
 ## A list of control abilities, which will be called in [method _process_physics]
-## only when [member controllable] is set to [code]true[/code].
-## Abilities should implement [method UP_BaseAbility._process_control].
+## only when [member controllable] is set to true.
+## Abilities can override [method UP_BaseAbility._process_control()].
 var control_abilities:Array[UP_BaseAbility] = []
 
-## If [code]true[/code], the [member control_abilities] will be processed
+## If true, the [member control_abilities] will be processed
 ## in each physics step.
 var controllable := true:
     set(x):
@@ -44,14 +44,12 @@ func _ready():
 ## an user to configuring inputs in the Project Settings. Default bindings 
 ## will be registered only when they aren't configured in the Project Settings.
 ##
-## [br][br]Each item must be a tuple of three variables:
-## [code][action_name, keycode, mouse_button][/code], where:
+## Each item must be an array of three variables:
+## action_name, keycode, mouse_button. Where action_name is a [String],
+## keycode is a [enum InputEvent.Key],
+## mouse_button is a [enum InputEventMouseButton.MouseButton].
 ##
-## [code]action_name[/code] is a [String],
-## [code]keycode[/code] is a [enum InputEvent.Key],
-## [code]mouse_button[/code] is a [enum InputEventMouseButton.MouseButton].
-##
-## [br][br]Both [code]keycode[/code] and [code]mouse_button[/code] are nullable.
+## Both keycode and mouse_button variables are nullable.
 ## Example initialization of a custom ability:
 ##
 ## [codeblock]
@@ -81,12 +79,12 @@ func register_default_input_bindings(bindings:Array):
                 InputMap.action_add_event(action, ev)
 
 ## Register an ability in the [member movement_abilities] list.
-## It should implement [method UP_BaseAbility._process_movement].
+## Ability can override [member UP_BaseAbility._process_movement].
 func register_movement_ability(ability:UP_BaseAbility):
     movement_abilities.append(ability)
 
 ## Register an ability in the [member control_abilities] list.
-## It should implement [method UP_BaseAbility._process_control].
+## Ability can override [member UP_BaseAbility._process_control].
 func register_control_ability(ability:UP_BaseAbility):
     control_abilities.append(ability)
 

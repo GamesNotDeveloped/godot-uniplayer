@@ -1,28 +1,44 @@
+class_name UP_HealthRegeneration
 extends UP_BaseAbility
 
-signal health_change
+## Adds self healing to the player's character
+##
+## When active, adds [member regenerate_step_health_points]
+## to the character's health and emits [signal health_regenerated] signal
+## every [member regenerate_step_time] seconds.
+##
+## Requires [member health_path] set to work properly.
 
-@export_node_path("UP_Health") var health_behaviour_path = NodePath("")
-@export var health_regenerate_step:float = 0.25 # HP
-@export var health_regenerate_time:float = 1.0  # seconds
+signal health_regenerated(points:float)
 
-var health_behaviour:UP_Health
-var timer = Timer.new()
+## Path to [UP_Health] node
+@export_node_path("UP_Health") var health_path = NodePath("")
+
+## Health points added every [member regenerate_step_time] seconds
+@export var regenerate_step_health_points:float = 0.25
+
+## Health regeneration interval (in seconds)
+@export var regenerate_step_time:float = 1.0
+
+var _health:UP_Health
+var _timer = Timer.new()
 
 func _ready():
-    health_behaviour = get_node(health_behaviour_path)
-    if health_behaviour:
-        health_behaviour.connect("health_reset", _reset)
-        timer.wait_time = health_regenerate_time
-        timer.one_shot = false
-        timer.connect("timeout", _update)
-        add_child(timer)
-        timer.start()
+    _health = get_node(health_path)
+    if _health:
+        _health.health_reset.connect(reset)
+        _timer.wait_time = regenerate_step_time
+        _timer.one_shot = false
+        _timer.timeout.connect(_update)
+        add_child(_timer)
+        _timer.start()
 
 func _update():
-    if health_behaviour.is_alive():
-        health_behaviour.change(health_regenerate_step)
+    if _health.is_alive():
+        _health.change(regenerate_step_health_points)
+        health_regenerated.emit(regenerate_step_health_points)
 
-func _reset():
-    timer.stop()
-    timer.start()
+## Resets internal timers
+func reset():
+    _timer.stop()
+    _timer.start()

@@ -6,7 +6,7 @@ extends Node
 ## Base class for Godot Uniplayer abilities
 ##
 ## An abstract class for creating abilities for Godot Uniplayer.
-## [b]Abilities must be added as a direct children of [UP_PlayerBase][/b].
+## Abilities must be added as a direct children of [UP_PlayerBase].
 
 
 signal active_toggled
@@ -17,7 +17,7 @@ var player:UP_PlayerBase
 
 ## Get or set the state of the ability.
 ## Changing the value emits [signal active_toggled] signal.
-## [i]Inactive abilities should do nothing and should not consume resources.[/i]
+## Inactive abilities should do nothing and should not consume resources.
 @export var active:bool = true:
     set(x):
         active = x
