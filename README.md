@@ -1,10 +1,6 @@
 # godot-uniplayer
 
-Modular player controller for Godot 4
-
-**DUE TO MICROSOFT POLICIES, WHICH I CAN'T ACCEPT, THE REPOSITORY HAS BEEN MOVED TO
-https://gitlab.com/gamesnotdeveloped/godot-uniplayer**
-
+Modular player controller for Godot 
 
 > **Warning**
 > The code is still under development and contains unresolved bugs
